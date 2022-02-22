@@ -39,8 +39,7 @@ public class ListItemsController {
 				Video video = videoRepository.findById(videoId).get();
 				PlayList playList = playListRepository.findById(playListId).get();
 				ListItems newListItems = new ListItems();
-				newListItems.setPlayList(playList);
-				;
+				newListItems.setPlayList(playList);			
 				newListItems.setVideo(video);
 				Integer orderNo = listItemsRepository.findAllByPlayListId(playListId).size() + 1;
 				newListItems.setOrderNo(orderNo);

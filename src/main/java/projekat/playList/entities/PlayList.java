@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -29,6 +30,12 @@ public class PlayList {
 	@JsonIgnore
 	@OneToMany(mappedBy = "playList", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	private List<ListItems> list = new ArrayList<>();
+	
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "channel")
+	private Channel channel;
+	
+	private Integer playListOrderNo;
 
 	public PlayList() {
 		super();
@@ -65,6 +72,22 @@ public class PlayList {
 
 	public void setList(List<ListItems> list) {
 		this.list = list;
+	}
+
+	public Channel getChannel() {
+		return channel;
+	}
+
+	public void setChannel(Channel channel) {
+		this.channel = channel;
+	}
+
+	public Integer getPlayListOrderNo() {
+		return playListOrderNo;
+	}
+
+	public void setPlayListOrderNo(Integer playListOrderNo) {
+		this.playListOrderNo = playListOrderNo;
 	}
 	
 	

@@ -5,19 +5,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import projekat.playList.entities.Video;
-import projekat.playList.repositories.VideoRepository;
+import projekat.playList.entities.Channel;
+import projekat.playList.repositories.ChannelRepository;
 
 @RestController
-@RequestMapping(path = "/api/v1/videos")
-public class ViideoController {
+@RequestMapping(path = "/api/v1/channels")
+public class ChannelController {
 
-	
 	@Autowired
-	VideoRepository videoRepository;
+	ChannelRepository channelRepository;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public Iterable<Video> allUsers(){
-		return videoRepository.findAll();
+	@RequestMapping(method = RequestMethod.POST)
+	public Channel addChannel() {
+		return null;
 	}
 }
