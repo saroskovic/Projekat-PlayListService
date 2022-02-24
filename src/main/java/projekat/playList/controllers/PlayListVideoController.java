@@ -12,58 +12,58 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import projekat.playList.entities.ListItems;
+import projekat.playList.entities.PlayListVideo;
 import projekat.playList.entities.PlayList;
 import projekat.playList.entities.User;
 import projekat.playList.entities.Video;
-import projekat.playList.repositories.ListItemsRepository;
 import projekat.playList.repositories.PlayListRepository;
+import projekat.playList.repositories.PlayListVideoRepository;
 import projekat.playList.repositories.UserRepository;
 import projekat.playList.repositories.VideoRepository;
 
 @RestController
 @RequestMapping(path = "/api/v1/playListItems")
-public class ListItemsController {
+public class PlayListVideoController {
 
 	@Autowired
-	ListItemsRepository listItemsRepository;
+	PlayListVideoRepository playListVideoRepository;
 	@Autowired
 	PlayListRepository playListRepository;
 	@Autowired
 	VideoRepository videoRepository;
 
 	@RequestMapping(method = RequestMethod.POST) // Dodavanje elemenata u playlistu
-	public ListItems addListItems(@RequestParam String playListId, @RequestParam String videoId) {
+	public PlayListVideo addListItems(@RequestParam Long playListId, @RequestParam Long videoId) {
 		if (playListRepository.existsById(playListId)) {
 			if (videoRepository.existsById(videoId)) {
 				Video video = videoRepository.findById(videoId).get();
 				PlayList playList = playListRepository.findById(playListId).get();
-				ListItems newListItems = new ListItems();
+				PlayListVideo newListItems = new PlayListVideo();
 				newListItems.setPlayList(playList);			
 				newListItems.setVideo(video);
-				Integer orderNo = listItemsRepository.findAllByPlayListId(playListId).size() + 1;
+				Integer orderNo = playListVideoRepository.findAllByPlayListId(playListId).size() + 1;
 				newListItems.setOrderNo(orderNo);
-				return listItemsRepository.save(newListItems);
+				return playListVideoRepository.save(newListItems);
 			}
 		}
 		return null;
 	}
 
 	@RequestMapping(method = RequestMethod.GET) // Svi elementi playListe sortirani po rednom broju
-	public List<ListItems> userPlayList(@RequestParam String userId) {
-		return listItemsRepository.findAllByPlayListIdOrderByOrderNoAsc(userId);
+	public List<PlayListVideo> userPlayList(@RequestParam Long userId) {
+		return playListVideoRepository.findAllByPlayListIdOrderByOrderNoAsc(userId);
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE) // Brisanje elemenata playliste
-	public ListItems dellListItems(@RequestParam Integer listItemsId) {
-		if (listItemsRepository.existsById(listItemsId)) {
-			ListItems listItem = listItemsRepository.findById(listItemsId).get();
-			listItemsRepository.delete(listItem);
-			List<ListItems> listItems = listItemsRepository.findAllByPlayListId(listItem.getPlayList().getId());
-			for (ListItems item : listItems) {
+	public PlayListVideo dellListItems(@RequestParam Long listItemsId) {
+		if (playListVideoRepository.existsById(listItemsId)) {
+			PlayListVideo listItem = playListVideoRepository.findById(listItemsId).get();
+			playListVideoRepository.delete(listItem);
+			List<PlayListVideo> listItems = playListVideoRepository.findAllByPlayListId(listItem.getPlayList().getId());
+			for (PlayListVideo item : listItems) {
 				if (item.getOrderNo() > listItem.getOrderNo()) {
 					item.setOrderNo(item.getOrderNo() - 1);
-					listItemsRepository.save(item);
+					playListVideoRepository.save(item);
 				}
 			}
 			return listItem;
@@ -72,18 +72,18 @@ public class ListItemsController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT) // Izmena redosleda elemenata u playlisti
-	public ListItems updateListItems(@RequestParam Integer listItemsId, @RequestParam Integer newOrderNo) {
-		if (listItemsRepository.existsById(listItemsId)) {
-			ListItems listItem = listItemsRepository.findById(listItemsId).get();
-			List<ListItems> listItems = listItemsRepository.findAllByPlayListId(listItem.getPlayList().getId());
-			listItemsRepository.delete(listItem);
-			for (ListItems item : listItems) {
+	public PlayListVideo updateListItems(@RequestParam Long listItemsId, @RequestParam Integer newOrderNo) {
+		if (playListVideoRepository.existsById(listItemsId)) {
+			PlayListVideo listItem = playListVideoRepository.findById(listItemsId).get();
+			List<PlayListVideo> listItems = playListVideoRepository.findAllByPlayListId(listItem.getPlayList().getId());
+			playListVideoRepository.delete(listItem);
+			for (PlayListVideo item : listItems) {
 				if (item.getOrderNo() > listItem.getOrderNo()) {
 					item.setOrderNo(item.getOrderNo() - 1);
-					listItemsRepository.save(item);
+					playListVideoRepository.save(item);
 				}
 			}
-			for (ListItems item : listItems) {
+			for (PlayListVideo item : listItems) {
 				if (item.getOrderNo() > newOrderNo - 1) {
 					item.setOrderNo(item.getOrderNo() + 1);
 				}
@@ -92,7 +92,7 @@ public class ListItemsController {
 
 			}
 			listItem.setOrderNo(newOrderNo);
-			return listItemsRepository.save(listItem);
+			return playListVideoRepository.save(listItem);
 		}
 		return null;
 	}

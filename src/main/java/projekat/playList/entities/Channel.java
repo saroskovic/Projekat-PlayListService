@@ -16,7 +16,7 @@ public class Channel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 	
 	private String channelName;
 	
@@ -32,11 +32,11 @@ public class Channel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

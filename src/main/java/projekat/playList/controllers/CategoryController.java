@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import projekat.playList.entities.Category;
-import projekat.playList.services.CategoryDao;
+import projekat.playList.services.CategoryService;
 
 @RestController
 @RequestMapping(path = "/api/v1/category")
 public class CategoryController {
 
 	@Autowired
-	private CategoryDao categoryService;
+	private CategoryService categoryService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Category> fetchCategoryList(){

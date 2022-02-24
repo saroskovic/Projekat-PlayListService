@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class PlayList {
 
 	@Id
-	public String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long id;
 	public String name;
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
@@ -29,7 +32,7 @@ public class PlayList {
 	public User user;
 	@JsonIgnore
 	@OneToMany(mappedBy = "playList", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	private List<ListItems> list = new ArrayList<>();
+	private List<PlayListVideo> list = new ArrayList<>();
 	
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "channel")
@@ -42,11 +45,11 @@ public class PlayList {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -66,11 +69,11 @@ public class PlayList {
 		this.user = user;
 	}
 
-	public List<ListItems> getList() {
+	public List<PlayListVideo> getList() {
 		return list;
 	}
 
-	public void setList(List<ListItems> list) {
+	public void setList(List<PlayListVideo> list) {
 		this.list = list;
 	}
 

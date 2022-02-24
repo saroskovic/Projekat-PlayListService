@@ -22,7 +22,7 @@ public class PlayListController {
 	UserRepository userRepository;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public PlayList addNewPlayList(@RequestParam String name, @RequestParam String userId) {
+	public PlayList addNewPlayList(@RequestParam String name, @RequestParam Long userId) {
 		if(userRepository.existsById(userId)) {
 			User user = userRepository.findById(userId).get();
 			PlayList newPlayList = new PlayList();

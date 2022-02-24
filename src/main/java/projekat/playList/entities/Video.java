@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
@@ -19,11 +21,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Video {
 
 	@Id
-	public String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long id;
 	public String name;
 	
 	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	private List<ListItems> list = new ArrayList<>();
+	private List<PlayListVideo> list = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinTable(name = "videoCategory", joinColumns =
@@ -36,11 +39,11 @@ public class Video {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
