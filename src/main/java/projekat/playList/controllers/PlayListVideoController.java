@@ -20,80 +20,33 @@ import projekat.playList.repositories.PlayListRepository;
 import projekat.playList.repositories.PlayListVideoRepository;
 import projekat.playList.repositories.UserRepository;
 import projekat.playList.repositories.VideoRepository;
+import projekat.playList.services.PlayListVideoService;
 
 @RestController
-@RequestMapping(path = "/api/v1/playListItems")
+@RequestMapping(path = "/api/v1/playListVideos")
 public class PlayListVideoController {
 
 	@Autowired
-	PlayListVideoRepository playListVideoRepository;
-	@Autowired
-	PlayListRepository playListRepository;
-	@Autowired
-	VideoRepository videoRepository;
+	PlayListVideoService playListVideoService;
+	
 
 	@RequestMapping(method = RequestMethod.POST) // Dodavanje elemenata u playlistu
-	public PlayListVideo addListItems(@RequestParam Long playListId, @RequestParam Long videoId) {
-		if (playListRepository.existsById(playListId)) {
-			if (videoRepository.existsById(videoId)) {
-				Video video = videoRepository.findById(videoId).get();
-				PlayList playList = playListRepository.findById(playListId).get();
-				PlayListVideo newListItems = new PlayListVideo();
-				newListItems.setPlayList(playList);			
-				newListItems.setVideo(video);
-				Integer orderNo = playListVideoRepository.findAllByPlayListId(playListId).size() + 1;
-				newListItems.setOrderNo(orderNo);
-				return playListVideoRepository.save(newListItems);
-			}
-		}
-		return null;
+	public PlayListVideo addListItems(@RequestParam Long playListId, @RequestParam Long videoId) {	
+		return playListVideoService.savePlayListVideo(playListId, videoId);
 	}
 
 	@RequestMapping(method = RequestMethod.GET) // Svi elementi playListe sortirani po rednom broju
 	public List<PlayListVideo> userPlayList(@RequestParam Long userId) {
-		return playListVideoRepository.findAllByPlayListIdOrderByOrderNoAsc(userId);
+		return playListVideoService.fetchOrderedPlayListVideoByUserId(userId);
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE) // Brisanje elemenata playliste
-	public PlayListVideo dellListItems(@RequestParam Long listItemsId) {
-		if (playListVideoRepository.existsById(listItemsId)) {
-			PlayListVideo listItem = playListVideoRepository.findById(listItemsId).get();
-			playListVideoRepository.delete(listItem);
-			List<PlayListVideo> listItems = playListVideoRepository.findAllByPlayListId(listItem.getPlayList().getId());
-			for (PlayListVideo item : listItems) {
-				if (item.getOrderNo() > listItem.getOrderNo()) {
-					item.setOrderNo(item.getOrderNo() - 1);
-					playListVideoRepository.save(item);
-				}
-			}
-			return listItem;
-		}
-		return null;
+	public void dellPlayListVideo(@RequestParam Long playListVideoId) {
+		playListVideoService.deletePlayListVideoById(playListVideoId);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT) // Izmena redosleda elemenata u playlisti
 	public PlayListVideo updateListItems(@RequestParam Long listItemsId, @RequestParam Integer newOrderNo) {
-		if (playListVideoRepository.existsById(listItemsId)) {
-			PlayListVideo listItem = playListVideoRepository.findById(listItemsId).get();
-			List<PlayListVideo> listItems = playListVideoRepository.findAllByPlayListId(listItem.getPlayList().getId());
-			playListVideoRepository.delete(listItem);
-			for (PlayListVideo item : listItems) {
-				if (item.getOrderNo() > listItem.getOrderNo()) {
-					item.setOrderNo(item.getOrderNo() - 1);
-					playListVideoRepository.save(item);
-				}
-			}
-			for (PlayListVideo item : listItems) {
-				if (item.getOrderNo() > newOrderNo - 1) {
-					item.setOrderNo(item.getOrderNo() + 1);
-				}
-				
-				
-
-			}
-			listItem.setOrderNo(newOrderNo);
-			return playListVideoRepository.save(listItem);
-		}
-		return null;
+		return playListVideoService.updatePlayListVideo(listItemsId, newOrderNo);
 	}
 }
