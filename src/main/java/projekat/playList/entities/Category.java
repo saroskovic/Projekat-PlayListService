@@ -2,6 +2,7 @@ package projekat.playList.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Category {
+public class Category{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,7 +38,31 @@ public class Category {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Category(Long id, String name, Channel channel, List<Video> videos) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.channel = channel;
+		this.videos = videos;
+	}
 
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null || this.getClass() != obj.getClass())
+			return false;
+		Category category = (Category) obj;
+		return (this.id == category.id && category.name.equals(this.name));
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
 	public Long getId() {
 		return id;
 	}
@@ -60,8 +85,6 @@ public class Category {
 
 	public void setChannel(Channel channel) {
 		this.channel = channel;
-	}
-
-	
+	}	
 	
 }

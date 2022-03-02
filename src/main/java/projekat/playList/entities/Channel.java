@@ -2,6 +2,7 @@ package projekat.playList.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ public class Channel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String channelName;
+	private String name;
 	
 	
 	@OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
@@ -32,6 +33,29 @@ public class Channel {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Channel(Long id, String name, List<PlayList> channelItems, List<Category> categories) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.channelItems = channelItems;
+		this.categories = categories;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null || this.getClass() != obj.getClass())
+			return false;
+		Channel ch = (Channel) obj;
+		return (this.id == ch.id && ch.name.equals(this.name));
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -40,12 +64,12 @@ public class Channel {
 		this.id = id;
 	}
 
-	public String getChannelName() {
-		return channelName;
+	public String getName() {
+		return name;
 	}
 
-	public void setChannelName(String channelName) {
-		this.channelName = channelName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<PlayList> getChannelItems() {

@@ -1,10 +1,13 @@
 package projekat.playList.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 import projekat.playList.entities.Category;
 
-public interface CategoryService {
+public interface CategoryService{
 
 	Category saveCategory(Category category);
 	

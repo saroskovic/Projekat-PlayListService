@@ -2,6 +2,7 @@ package projekat.playList.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,7 +26,9 @@ public class PlayList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
+	
 	public String name;
+	
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user")
@@ -45,6 +48,32 @@ public class PlayList {
 		// TODO Auto-generated constructor stub
 	}
 
+	public PlayList(Long id, String name, User user, List<PlayListVideo> list, Channel channel,
+			Integer playListOrderNo) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.user = user;
+		this.list = list;
+		this.channel = channel;
+		this.playListOrderNo = playListOrderNo;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null || this.getClass() != obj.getClass())
+			return false;
+		PlayList playList = (PlayList) obj;
+		return (playList.id == this.id && playList.name.equals(this.name));
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
+	
 	public Long getId() {
 		return id;
 	}

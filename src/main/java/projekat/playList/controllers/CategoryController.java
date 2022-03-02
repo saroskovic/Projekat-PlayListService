@@ -14,7 +14,7 @@ import projekat.playList.services.CategoryService;
 
 @RestController
 @RequestMapping(path = "/api/v1/category")
-public class CategoryController {
+public class CategoryController{
 
 	@Autowired
 	private CategoryService categoryService;
@@ -25,7 +25,7 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/{categoryId}")
-	public Category findCategoryById(@PathVariable Long categoryId) {
+	public Category findCategoryById(@PathVariable Long categoryId){
 		return categoryService.getCategoryById(categoryId);
 	}
 	

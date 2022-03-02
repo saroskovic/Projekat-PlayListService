@@ -1,7 +1,6 @@
 package projekat.playList.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,6 +35,29 @@ public class PlayListVideo {
 	public PlayListVideo() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public PlayListVideo(Long id, PlayList playList, Video video, Integer orderNo) {
+		super();
+		this.id = id;
+		this.playList = playList;
+		this.video = video;
+		this.orderNo = orderNo;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null || this.getClass() != obj.getClass())
+			return false;
+		PlayListVideo pLVideo = (PlayListVideo) obj;
+		return (pLVideo.id == this.id && pLVideo.orderNo.equals(this.orderNo));
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, orderNo);
 	}
 
 	public Long getId() {

@@ -1,6 +1,7 @@
 package projekat.playList.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public void deleteCategoryById(Long categoryId) {
+	public void deleteCategoryById(Long categoryId){
 		if(categoryRepository.existsById(categoryId)) {
 			Category category = categoryRepository.findById(categoryId).get();
 			categoryRepository.delete(category);
@@ -49,9 +50,10 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public Category getCategoryById(Long categoryId) {
-		if(categoryRepository.existsById(categoryId))
-		return categoryRepository.getById(categoryId);
-		return null;
+		return categoryRepository.findById(categoryId)
+				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find category: &d", categoryId)));
+						
+
 	}
 
 }
