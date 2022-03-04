@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import projekat.playList.entities.Channel;
 
-public interface ChannelRepository extends JpaRepository<Channel, Integer> {
+public interface ChannelRepository extends JpaRepository<Channel, Long> {
 
 }

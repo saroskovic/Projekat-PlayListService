@@ -2,38 +2,51 @@ package projekat.playList.services;
 
 import java.util.List;
 
-import projekat.playList.entities.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
+import projekat.playList.entities.Channel;
+import projekat.playList.repositories.ChannelRepository;
+
+@Service
 public class ChannelServiceImpl implements ChannelService {
 
+	@Autowired
+	ChannelRepository channelRepository;
+	
 	@Override
 	public Channel saveChannel(Channel channel) {
-		// TODO Auto-generated method stub
-		return null;
+		return channelRepository.save(channel);
 	}
 
 	@Override
 	public List<Channel> fetchChannelList() {
-		// TODO Auto-generated method stub
-		return null;
+		return channelRepository.findAll();
 	}
 
 	@Override
 	public Channel getChannelById(Long channelId) {
-		// TODO Auto-generated method stub
-		return null;
+		return channelRepository.findById(channelId)
+				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find channel: &d", channelId)));
 	}
 
 	@Override
 	public Channel updateChannel(Channel channel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Channel newChannel = channelRepository.findById(channel.getId())
+				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find channel: &d", channel.getId())));
+		if(channel.getName() != null)
+			newChannel.setName(channel.getName());
+		return channelRepository.save(newChannel);
 
+	}
+	
 	@Override
 	public void deleteChannelById(Long channelId) {
-		// TODO Auto-generated method stub
-		
+		Channel channel = channelRepository.findById(channelId)
+				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find channel: &d", channelId)));
+		channelRepository.delete(channel);	
 	}
 
 }

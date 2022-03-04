@@ -17,8 +17,6 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Override
 	public Category saveCategory(Category category) {
-		if(category.getName() == null || category.getChannel() == null)
-			return null;
 		return categoryRepository.save(category);
 	}
 
@@ -29,31 +27,28 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public Category updateCategory(Category category) {
-		if(categoryRepository.existsById(category.getId())) {
-			Category newCategory = categoryRepository.getById(category.getId());
+			Category newCategory = categoryRepository.findById(category.getId())
+					.orElseThrow(() -> new NoSuchElementException(String.format("Could not find category: &d", category.getId())));
 			if(category.getName() != null)
 				newCategory.setName(category.getName());
 			if(category.getChannel() != null)
 				newCategory.setChannel(category.getChannel());
 			return categoryRepository.save(newCategory);
-		}
-		return null;
+		
 	}
 
 	@Override
 	public void deleteCategoryById(Long categoryId){
-		if(categoryRepository.existsById(categoryId)) {
-			Category category = categoryRepository.findById(categoryId).get();
+			Category category = categoryRepository.findById(categoryId)
+					.orElseThrow(() -> new NoSuchElementException(String.format("Could not find category: &d", categoryId)));
 			categoryRepository.delete(category);
-		}
+		
 	}
 
 	@Override
 	public Category getCategoryById(Long categoryId) {
 		return categoryRepository.findById(categoryId)
 				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find category: &d", categoryId)));
-						
-
 	}
 
 }
