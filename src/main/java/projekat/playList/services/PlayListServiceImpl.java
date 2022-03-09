@@ -4,6 +4,8 @@ package projekat.playList.services;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,14 @@ import projekat.playList.repositories.PlayListRepository;
 @Service
 public class PlayListServiceImpl implements PlayListService {
 
+	private static final Logger log = LoggerFactory.getLogger(PlayListServiceImpl.class);
+
 	@Autowired
 	PlayListRepository playListRepository;
 
 	@Override
 	public PlayList savePlayList(PlayList playList) {
+
 		return playListRepository.save(playList);
 	}
 

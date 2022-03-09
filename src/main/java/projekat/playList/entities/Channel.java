@@ -1,5 +1,7 @@
 package projekat.playList.entities;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Channel {
+@Data
+public class Channel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,7 +59,7 @@ public class Channel {
 		return Objects.hash(id, name);
 	}
 	
-	public Long getId() {
+	/*public Long getId() {
 		return id;
 	}
 
@@ -86,7 +89,7 @@ public class Channel {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
-	}
+	}*/
 	
 	
 	

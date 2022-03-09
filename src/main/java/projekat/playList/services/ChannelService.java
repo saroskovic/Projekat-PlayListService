@@ -13,7 +13,7 @@ public interface ChannelService {
 	
 	Channel getChannelById(Long channelId);
 	
-	Channel updateChannel(Channel channel);
+	Channel updateChannel(Channel channel, Long channelId);
 	
 	void deleteChannelById(Long channelId);
 }
