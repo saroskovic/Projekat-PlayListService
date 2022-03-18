@@ -25,14 +25,14 @@ public class PlayList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long id;
+	private Long id;
 	
-	public String name;
+	private String name;
 	
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user")
-	public User user;
+	private User user;
 	@JsonIgnore
 	@OneToMany(mappedBy = "playList", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	private List<PlayListVideo> list = new ArrayList<>();

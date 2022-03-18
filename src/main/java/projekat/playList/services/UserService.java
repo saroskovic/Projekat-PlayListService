@@ -9,6 +9,8 @@ public interface UserService {
 	User saveUser(User user);
 	
 	List<User> fetchUserList();
+
+	User getUserByEmail(String email);
 	
 	User getUserById(Long userId);
 	

@@ -18,19 +18,32 @@ import javax.persistence.OneToOne;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 @Entity
+@Data
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long id;
-	
-	public String name;
+	//@Column(name = "user_id")
+	private Long id;
+
+	//@Column(name = "name")
+	private String name;
+
+	//@Column(name = "email")
+	private String email;
+
+	@JsonIgnore
+	private String password;
 	
 	@OneToOne(mappedBy ="user",  cascade = CascadeType.REFRESH, fetch =	FetchType.LAZY)
-	public PlayList playList;
-	
+	private PlayList playList;
+
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "role")
+	private Role role;
 
 	public User() {
 		super();

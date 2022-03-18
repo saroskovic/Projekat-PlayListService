@@ -34,14 +34,14 @@ public class PlayListServiceImpl implements PlayListService {
 	@Override
 	public PlayList getPlayListById(Long playListId) {
 		return playListRepository.findById(playListId)
-				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find playlist: &d", playListId)));
+				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find playlist: %d", playListId)));
 				
 	}
 
 	@Override
 	public PlayList updatePlayList(PlayList playList) {
 		PlayList newPlayList = playListRepository.findById(playList.getId())
-								.orElseThrow(() -> new NoSuchElementException(String.format("Could not find playlist: &d", playList.getId())));
+								.orElseThrow(() -> new NoSuchElementException(String.format("Could not find playlist: %d", playList.getId())));
 		if(playList.getName() != null)
 			newPlayList.setName(playList.getName());
 		if(playList.getUser() != null)
@@ -56,7 +56,7 @@ public class PlayListServiceImpl implements PlayListService {
 	@Override
 	public void deletePlayListById(Long playListId) {
 		PlayList playList = playListRepository.findById(playListId)
-				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find playlist: &d", playListId)));
+				.orElseThrow(() -> new NoSuchElementException(String.format("Could not find playlist: %d", playListId)));
 		playListRepository.delete(playList);
 	}
 	

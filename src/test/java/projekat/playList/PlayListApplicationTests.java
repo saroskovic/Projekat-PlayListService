@@ -9,5 +9,4 @@ class PlayListApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

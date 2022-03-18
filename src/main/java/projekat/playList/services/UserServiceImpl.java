@@ -16,13 +16,16 @@ public class UserServiceImpl implements UserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	@Autowired
 	UserRepository userRepository;
-	
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
 	@Override
 	public User saveUser(User user) {
 		if(user.getName() == null)
-			throw new NullPointerException("Name canot be null!");
+			throw new NullPointerException("Name cannot be null!");
 		return userRepository.save(user);
 	}
 
@@ -36,6 +39,11 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findById(userId)
 				.orElseThrow(() -> new NoSuchElementException(String.format("could not find user: %d", userId)));
 		
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 	@Override

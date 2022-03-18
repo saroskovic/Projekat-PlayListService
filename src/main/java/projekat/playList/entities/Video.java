@@ -23,9 +23,9 @@ public class Video {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long id;
+	private Long id;
 	
-	public String name;
+	private String name;
 	
 	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	private List<PlayListVideo> list = new ArrayList<>();
