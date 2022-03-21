@@ -4,17 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,15 +31,18 @@ public class User {
 	@OneToOne(mappedBy ="user",  cascade = CascadeType.REFRESH, fetch =	FetchType.LAZY)
 	private PlayList playList;
 
-	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-	@JoinColumn(name = "role")
-	private Role role;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Role> roles;
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public User(Long id) {
+		this.id = id;
+	}
+
 	public User(Long id, String name, PlayList playList) {
 		super();
 		this.id = id;
@@ -95,6 +88,12 @@ public class User {
 	public void setPlayList(PlayList playList) {
 		this.playList = playList;
 	}
-	
-	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

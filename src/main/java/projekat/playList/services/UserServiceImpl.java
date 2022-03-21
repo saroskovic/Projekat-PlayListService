@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import projekat.playList.entities.Role;
 import projekat.playList.entities.User;
+import projekat.playList.repositories.RoleRepository;
 import projekat.playList.repositories.UserRepository;
 
 @Service
@@ -17,6 +19,7 @@ public class UserServiceImpl implements UserService {
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	UserRepository userRepository;
+	RoleRepository roleRepository;
 
 	public UserServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -63,6 +66,18 @@ public class UserServiceImpl implements UserService {
 						.orElseThrow(() -> new NoSuchElementException(String.format("could not find user: %d", userId)));
 		userRepository.delete(user);
 		
+	}
+
+	@Override
+	public Role saveRole(Role role) {
+		return roleRepository.save(role);
+	}
+
+	@Override
+	public void addRoleToUser(String userEmail, String roleName) {
+		User user = userRepository.findByEmail(userEmail);
+		Role role = roleRepository.findByName(roleName);
+		user.getRoles().add(role);
 	}
 
 }

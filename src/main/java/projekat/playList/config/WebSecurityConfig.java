@@ -12,18 +12,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.security.secret-key}")
-    private String secretKey;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .addFilterAfter(new JWTAuthorizationFilter(secretKey),
+                .addFilterAfter(new JWTAuthorizationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/login")
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login")
                 .permitAll().anyRequest().authenticated();
     }
 }

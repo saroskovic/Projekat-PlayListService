@@ -38,7 +38,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	/*@RequestMapping(method = RequestMethod.GET)
 	public Iterable<User> allUsers(){
 		return userService.fetchUserList();
@@ -65,8 +65,9 @@ public class UserController {
 	}
 
 	private String getJWTToken(User user) {
+		String secretKey = "mySecretKey";
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList(user.getRole().getName());
+				.commaSeparatedStringToAuthorityList("ROLE_USER");
 		String token = Jwts.builder().setId("softtekJWT").setSubject(user.getEmail())
 				.claim("authorities", grantedAuthorities.stream()
 						.map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
@@ -77,7 +78,7 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> login(@RequestParam("user") String email, @RequestParam("password")
+	public ResponseEntity<?> login(@RequestParam("user email") String email, @RequestParam("password")
 			String pwd) {
 		User user = userService.getUserByEmail(email);
 		if (user != null && Encryption.validatePassword(pwd, user.getPassword())) {
@@ -89,7 +90,8 @@ public class UserController {
 		}
 		return new ResponseEntity<>("Wrong credentials", HttpStatus.UNAUTHORIZED);
 	}
-	@Secured("ROLE_USER")
+
+	//@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> listUsers() {
 		return new ResponseEntity<>(userService.fetchUserList(), HttpStatus.OK);

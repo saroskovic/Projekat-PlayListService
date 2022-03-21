@@ -2,6 +2,7 @@ package projekat.playList.services;
 
 import java.util.List;
 
+import projekat.playList.entities.Role;
 import projekat.playList.entities.User;
 
 public interface UserService {
@@ -17,4 +18,8 @@ public interface UserService {
 	User updateUser(User user, Long userId);
 	
 	void deleteUserById(Long userId);
+
+	Role saveRole(Role role);
+
+	void addRoleToUser(String userEmail, String roleName);
 }
