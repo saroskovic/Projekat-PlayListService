@@ -19,7 +19,12 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private final String HEADER = "Authorization";
     private final String PREFIX = "Bearer";
-    private final String SECRET = "mySecretKey";
+    private  String secret;
+
+    public JWTAuthorizationFilter(String secret) {
+        super();
+        this.secret = secret;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -61,7 +66,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private Claims validateToken(HttpServletRequest request) {
         String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
-        return Jwts.parser().setSigningKey(this.SECRET.getBytes())
+        return Jwts.parser().setSigningKey(this.secret.getBytes())
                 .parseClaimsJws(jwtToken).getBody();
     }
 }

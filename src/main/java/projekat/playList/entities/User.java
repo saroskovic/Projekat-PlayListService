@@ -16,13 +16,13 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	//@Column(name = "user_id")
+	@Column(name = "user_id")
 	private Long id;
 
-	//@Column(name = "name")
+	@Column(name = "name")
 	private String name;
 
-	//@Column(name = "email")
+	@Column(name = "email")
 	private String email;
 
 	@JsonIgnore
@@ -32,6 +32,7 @@ public class User {
 	private PlayList playList;
 
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "roles")
 	private List<Role> roles;
 
 	public User() {

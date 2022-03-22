@@ -10,6 +10,10 @@ public class Encryption {
         return bCryptPasswordEncoder.encode("pass");
     }
 
+   /*public static void main(String[] args){
+        System.out.println(getPassEncoded("pass"));
+    }*/
+
     public static boolean validatePassword(String pass, String
             encodedPass) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new

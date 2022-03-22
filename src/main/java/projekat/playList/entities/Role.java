@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Table(name = "role")
+@Table(name = "role")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 @Data
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name = "role_id")
+    @Column(name = "role_id")
     private Long Id;
 
-    //@Column(name = "role_name")
+    @Column(name = "role_name")
     private String name;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<User> users = new ArrayList<>();
 
 }

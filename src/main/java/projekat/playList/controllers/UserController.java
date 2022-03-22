@@ -91,7 +91,7 @@ public class UserController {
 		return new ResponseEntity<>("Wrong credentials", HttpStatus.UNAUTHORIZED);
 	}
 
-	//@Secured("ROLE_USER")
+	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> listUsers() {
 		return new ResponseEntity<>(userService.fetchUserList(), HttpStatus.OK);
